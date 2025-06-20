@@ -1,0 +1,52 @@
+/* ui/static/styles.css */
+
+/* General font and background */
+body {
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+}
+
+/* Sidebar styling */
+[data-testid="stSidebar"] {
+    background-color: #0f1116;
+    border-right: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+[data-testid="stSidebar"] .stButton button {
+    background-color: #4A4A5A;
+}
+
+[data-testid="stSidebar"] .stButton button:hover {
+    background-color: #6c63ff;
+    color: white;
+}
+
+[data-testid="stSidebar"] [data-testid="stMarkdownContainer"] h3 {
+    color: #6c63ff;
+}
+
+/* Chat message styling */
+.stChatMessage {
+    background-color: #262730;
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    border-radius: 12px;
+    padding: 1.2rem;
+}
+
+/* Specific styling for user messages */
+div[data-testid="chat-message-container"] > div[data-testid="stChatMessage"] {
+    background-color: #1e1f24; /* Slightly different for user */
+}
+
+/* Main action button */
+.stButton > button[kind="primary"] {
+    background-color: #6c63ff;
+    border: none;
+}
+.stButton > button[kind="primary"]:hover {
+    background-color: #5a54d1;
+}
+
+/* Spinner color */
+.stSpinner > div {
+    border-top-color: #6c63ff !important;
+}

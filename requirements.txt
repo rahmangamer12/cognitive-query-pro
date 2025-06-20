@@ -1,0 +1,27 @@
+# requirements.txt - LATEST STABLE VERSIONS
+
+streamlit
+langchain
+langchain-core
+langchain-community
+langchain-openai
+langchain-google-genai
+langchain-huggingface
+chromadb
+pypdf
+python-dotenv
+tiktoken
+python-docx
+onnxruntime
+protobuf
+streamlit
+langchain
+langchain-openai
+langchain-google-genai
+faiss-cpu 
+pypdf
+python-dotenv
+tiktoken
+python-docx
+sentence-transformers
+langchain-text-splitters
