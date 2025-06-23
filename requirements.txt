@@ -18,4 +18,4 @@ plotly
 numpy
 scikit-learn
 openpyxl
-pptx
+python-pptx
