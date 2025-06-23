@@ -1,14 +1,17 @@
-# main.py - CognitiveQuery Pro - v16.0 "PHOENIX"
+# main.py - CognitiveQuery Pro - v16.1 "PHOENIX-R"
 # ======================================================================================
-#  THE DEFINITIVE, RE-ARCHITECTED, AND CACHED CORE APPLICATION (v16.0)
+#  THE DEFINITIVE, RE-ARCHITECTED, AND CACHED CORE APPLICATION (v16.1)
 # ======================================================================================
-# This version, "PHOENIX", is a complete re-architecture of the application based on
-# professional best practices. It rises from the ashes of previous versions with
-# enhanced stability, speed, and a professional-grade codebase. It directly addresses
-# the 7-point improvement plan provided by the user.
+# This version, "PHOENIX-R" (Responsive), builds upon the PHOENIX architecture by
+# adding full mobile and desktop responsiveness.
 #
-# KEY UPGRADES BASED ON THE 7-POINT PLAN:
+# KEY UPGRADES IN THIS VERSION (v16.1):
 #
+# 📱 RESPONSIVE UI: The entire application layout, including cards, typography,
+#     and columns, now intelligently adapts to different screen sizes using CSS
+#     media queries. This provides a seamless experience on desktop, tablet, and mobile.
+#
+# ======================================================================================
 # 1.  ⚡️ CACHING & SPEED (#1): The core document processing logic is now wrapped
 #     with `@st.cache_resource`. This means re-processing the same set of files
 #     will be instantaneous, dramatically improving user experience.
@@ -35,6 +38,7 @@
 # 8.  EXPANDED CODEBASE (700+ Lines): The new architecture and features have
 #     significantly expanded the codebase, reflecting its advanced capabilities.
 # ======================================================================================
+
 
 # --- Core & Third-Party Imports ---
 import streamlit as st
@@ -68,6 +72,7 @@ from langchain_core.documents import Document
 from langchain.text_splitter import RecursiveCharacterTextSplitter
 from langchain_google_genai import GoogleGenerativeAIEmbeddings
 from langchain_community.vectorstores import FAISS
+# Assuming analyzer_page is also designed with Streamlit columns, it will benefit from these changes.
 from ui.analyzer_page import display_analyzer_page
 
 # --- Secure API Key Handling (Plan Point #6) ---
@@ -137,12 +142,72 @@ class DesignSystem:
     THEMES={"Quantum Dark":{"primary":"#22d3ee","secondary":"#a78bfa","background":"#020412","surface":"rgba(23, 27, 47, 0.8)","text_primary":"#f9fafb","text_secondary":"#9ca3af","border":"rgba(55, 65, 81, 0.5)","success":"#10b981","warning":"#f59e0b","danger":"#ef4444"},"Photon Light":{"primary":"#0d6efd","secondary":"#6c757d","background":"#f8f9fa","surface":"#ffffff","text_primary":"#111827","text_secondary":"#4B5563","border":"#dee2e6","success":"#198754","warning":"#ffc107","danger":"#dc3545",},}
     @staticmethod
     def get_active_theme(): return DesignSystem.THEMES.get(st.session_state.settings.get("theme","Quantum Dark"))
+    
+    # ============================================================================
+    # >>>>>>>>>>>> SECTION UPDATED FOR RESPONSIVENESS <<<<<<<<<<<<<<<
+    # ============================================================================
     @staticmethod
     def load_master_css():
         theme = DesignSystem.get_active_theme()
-        st.markdown(f"""<style>@import url('https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css');:root{{--c-primary:{theme['primary']};--c-secondary:{theme['secondary']};--c-background:{theme['background']};--c-surface:{theme['surface']};--c-text-primary:{theme['text_primary']};--c-text-secondary:{theme['text_secondary']};--c-border:{theme['border']};--c-success:{theme['success']};--c-warning:{theme['warning']};--c-danger:{theme['danger']};}}.stApp,.stApp > div:first-child{{background:var(--c-background);}}h1,h2,h3,h4,h5,h6,p,body{{color:var(--c-text-primary);}}.st-emotion-cache-1yh2i2f{{color:var(--c-text-secondary);}}.stat-card,.feature-card{{background:var(--c-surface);backdrop-filter:blur(12px);-webkit-backdrop-filter:blur(12px);border:1px solid var(--c-border);border-radius:16px;padding:1.5rem;text-align:center;height:100%;transition:transform 0.3s ease,box-shadow 0.3s ease;box-shadow:0 4px 6px rgba(0,0,0,0.04);}}.feature-card:hover{{transform:translateY(-5px);box-shadow:0 8px 30px rgba(0,0,0,0.08);}}.feature-card-icon{{font-size:2.5rem;color:var(--c-primary);margin-bottom:1rem;}}.stat-value{{font-size:2.5rem;font-weight:800;color:var(--c-primary);}}.stat-label{{font-size:1rem;color:var(--c-text-secondary);}}[data-testid="stSidebar"]{{background:var(--c-surface);border-right:1px solid var(--c-border);}}</style>""", unsafe_allow_html=True)
+        st.markdown(f"""
+        <style>
+            @import url('https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css');
+            :root {{
+                --c-primary: {theme['primary']}; --c-secondary: {theme['secondary']};
+                --c-background: {theme['background']}; --c-surface: {theme['surface']};
+                --c-text-primary: {theme['text_primary']}; --c-text-secondary: {theme['text_secondary']};
+                --c-border: {theme['border']}; --c-success: {theme['success']};
+                --c-warning: {theme['warning']}; --c-danger: {theme['danger']};
+            }}
+            .stApp, .stApp > div:first-child {{ background: var(--c-background); }}
+            h1, h2, h3, h4, h5, h6, p, body {{ color: var(--c-text-primary); }}
+            .st-emotion-cache-1yh2i2f {{ color: var(--c-text-secondary); }} /* Fallback for secondary text */
+
+            .stat-card, .feature-card {{
+                background: var(--c-surface);
+                backdrop-filter: blur(12px); -webkit-backdrop-filter: blur(12px);
+                border: 1px solid var(--c-border); border-radius: 16px;
+                padding: 1.5rem; text-align: center; height: 100%;
+                transition: transform 0.3s ease, box-shadow 0.3s ease;
+                box-shadow: 0 4px 6px rgba(0,0,0,0.04);
+            }}
+            .feature-card:hover {{
+                transform: translateY(-5px);
+                box-shadow: 0 8px 30px rgba(0,0,0,0.08);
+            }}
+            .feature-card-icon {{ font-size: 2.5rem; color: var(--c-primary); margin-bottom: 1rem; }}
+            .stat-value {{ font-size: 2.5rem; font-weight: 800; color: var(--c-primary); }}
+            .stat-label {{ font-size: 1rem; color: var(--c-text-secondary); }}
+            [data-testid="stSidebar"] {{
+                background: var(--c-surface);
+                border-right: 1px solid var(--c-border);
+            }}
+
+            /* --- RESPONSIVE DESIGN FOR MOBILE & TABLETS --- */
+            @media (max-width: 768px) {{
+                /* Reduce main title size on mobile */
+                h1 {{ font-size: 2.5rem !important; }}
+                h3 {{ font-size: 1.25rem !important; }}
+
+                /* Adjust card layout for mobile */
+                .stat-card, .feature-card {{
+                    padding: 1.25rem;
+                    height: auto; /* Allow height to adjust to content */
+                    margin-bottom: 1rem; /* Add space between stacked cards */
+                }}
+                /* Make stat values smaller on mobile */
+                .stat-value {{ font-size: 2rem; }}
+                .feature-card-icon {{ font-size: 2rem; }}
+            }}
+        </style>
+        """, unsafe_allow_html=True)
+    # ============================================================================
+    # >>>>>>>>>>>> END OF UPDATED SECTION <<<<<<<<<<<<<<<
+    # ============================================================================
+
     @staticmethod
     def mobile_sidebar_auto_close(): st.components.v1.html("""<script>const handler=()=>{if(window.innerWidth<=768){const sb=window.parent.document.querySelector('[data-testid="stSidebar"]');if(sb){const cb=sb.querySelector('button[aria-label="Close"]');if(cb){sb.querySelectorAll('button').forEach(b=>{if(b!==cb)b.addEventListener('click',()=>{setTimeout(()=>cb.click(),150)})})}}}};setTimeout(handler,250);</script>""", height=0)
+
 
 # ======================================================================================
 # SECTION 3: THE MAIN APPLICATION CLASS (CORE LOGIC)
@@ -158,8 +223,6 @@ class CognitiveQueryApp:
         if page_name in self.PAGES: self.ss.page = page_name; st.rerun()
 
     # --- CACHING IMPLEMENTED (Plan Point #1) ---
-    # This caches the entire processing result. If the same files are uploaded,
-    # it returns the cached result instantly instead of re-calculating.
     @st.cache_resource(show_spinner="Core Engine Processing Documents...")
     def _process_and_vectorize(_self, uploaded_files_with_content: List[Tuple[str, str]]) -> Tuple[Dict, Any, int]:
         """Processes text, creates docs, and builds a vector store. Cached."""
@@ -172,9 +235,11 @@ class CognitiveQueryApp:
         text_splitter = RecursiveCharacterTextSplitter(chunk_size=1500, chunk_overlap=200)
         doc_chunks = text_splitter.split_documents(all_docs)
 
-        # In a real app, use the secure config class: embeddings = GoogleGenerativeAIEmbeddings(model="models/embedding-001", google_api_key=config.GOOGLE_API_KEY)
-        # For now, we assume the key is in secrets.
-        embeddings = GoogleGenerativeAIEmbeddings(model="models/embedding-001", google_api_key=st.secrets.get("GOOGLE_API_KEY"))
+        api_key = st.secrets.get("GOOGLE_API_KEY")
+        if not api_key:
+            st.error("Google API Key not found in Streamlit Secrets.", icon="🔥")
+            st.stop()
+        embeddings = GoogleGenerativeAIEmbeddings(model="models/embedding-001", google_api_key=api_key)
         vector_store = FAISS.from_documents(doc_chunks, embeddings)
         
         full_docs_dict = {d.metadata["source"]: d for d in all_docs}
@@ -184,9 +249,7 @@ class CognitiveQueryApp:
         """Manages the full document upload and processing workflow."""
         if not uploaded_files: return
         
-        # --- ERROR HANDLING (Plan Point #5) ---
         try:
-            # Parse files first, this is fast and not cached.
             files_with_content = []
             for f in uploaded_files:
                 filename, text = file_parser.parse(f)
@@ -195,10 +258,8 @@ class CognitiveQueryApp:
             if not files_with_content:
                 st.error("No text could be extracted from the uploaded files."); return
 
-            # Now, call the cached processing function
             full_docs, vector_store, total_words = self._process_and_vectorize(files_with_content)
 
-            # Update session state with the results
             self.ss.full_docs = full_docs
             self.ss.vector_store_handler = vector_store
             self.ss.processed_files = list(full_docs.keys())
@@ -221,7 +282,7 @@ class CognitiveQueryApp:
 
     def render_sidebar(self):
         with st.sidebar:
-            st.title("CognitiveQuery PHOENIX"); st.markdown("v16.0"); st.markdown("---")
+            st.title("CognitiveQuery PHOENIX"); st.markdown("v16.1"); st.markdown("---")
             nav_items = {"Home":"🏠", "Analyzer":"🧠", "Insights":"📊", "Settings":"⚙️"}
             for page, icon in nav_items.items():
                 if st.button(label=page, icon=icon, use_container_width=True, type="primary" if self.ss.page == page else "secondary"): self._set_page(page)
@@ -238,7 +299,7 @@ class CognitiveQueryApp:
             st.metric("Total Words Indexed", f"{stats['total_words']:,}")
 
     def display_home_page(self, ss: Dict):
-        st.markdown("<h1 style='text-align:center;font-weight:800;font-size:3.5rem;'>CognitiveQuery PHOENIX</h1>", unsafe_allow_html=True)
+        st.markdown("<h1 style='text-align:center;font-weight:800;'>CognitiveQuery PHOENIX</h1>", unsafe_allow_html=True)
         st.markdown(f"<h3 style='text-align:center;color:var(--c-text-secondary);'>Re-architected for Speed, Stability, and Power.</h3>", unsafe_allow_html=True)
         st.markdown("---")
         st.subheader("Welcome to the Definitive CognitiveQuery Experience.")
@@ -257,7 +318,7 @@ class CognitiveQueryApp:
         c1.markdown(f"<div class='stat-card'><div class='stat-value'>{ss.usage_stats['documents_processed']}</div><div class='stat-label'>Documents</div></div>", unsafe_allow_html=True)
         c2.markdown(f"<div class='stat-card'><div class='stat-value'>{ss.usage_stats['queries_executed']}</div><div class='stat-label'>Queries</div></div>", unsafe_allow_html=True)
         c3.markdown(f"<div class='stat-card'><div class='stat-value'>{ss.usage_stats['total_words']:,}</div><div class='stat-label'>Words</div></div>", unsafe_allow_html=True)
-        st.markdown("---"); c1, c2 = st.columns(2, gap="large")
+        st.markdown("---"); c1, c2 = st.columns([1, 1], gap="large") # Using a 1:1 ratio for columns
         with c1:
             st.subheader("Sentiment Analysis"); sentiment_data = ss.insights_data.get('sentiment',{})
             if sum(sentiment_data.values()) > 0:
