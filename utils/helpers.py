@@ -1,36 +1,60 @@
-# utils/helpers.py
+# utils/helpers.py - The Final, Corrected, and Robust Asset Loader
 
 import streamlit as st
 import os
 from pathlib import Path
 
-def load_css(file_name):
+def load_css(file_name: str):
     """
-    Loads a CSS file using a path relative to the project's root directory.
-    This is the most reliable method for Streamlit apps.
+    Loads a CSS file from the 'ui/static' directory using a robust,
+    absolute path relative to this very file. This is the most reliable
+    method to prevent FileNotFoundError.
     
-    How it works:
-    1. `Path.cwd()` gets the current working directory, which is the project root
-       when you run `streamlit run main.py`.
-    2. We then join this root path with the relative path to our CSS file.
+    Args:
+        file_name (str): The name of the CSS file (e.g., 'styles.css').
     """
-    # Get the project root directory (where you run the command from)
-    project_root = Path.cwd()
-    
-    # Construct the full path to the CSS file
-    # This will be something like 'D:/Agentic Ai/Project 1/ui/static/styles.css'
-    file_path = project_root / "ui" / "static" / file_name
-
     try:
+        # Get the directory where this helpers.py file is located.
+        current_dir = Path(__file__).parent
+        # Get the project's root directory by going one level up.
+        project_root = current_dir.parent
+        # Construct the full, absolute path to the CSS file.
+        file_path = project_root / "ui" / "static" / file_name
+        
         with open(file_path) as f:
             st.markdown(f"<style>{f.read()}</style>", unsafe_allow_html=True)
-        # Optional: Add a success message in the terminal for debugging
         print(f"✅ CSS loaded successfully from: {file_path}")
-
     except FileNotFoundError:
-        # Provide a very clear error message if the file is not found
-        st.error(f"CSS file not found at the expected path.")
-        st.code(str(file_path), language="text")
-        st.warning("Please verify the following:\n"
-                   "1. You are running `streamlit run main.py` from the project's root directory (`cognitive_query_pro`).\n"
-                   "2. The folder structure is exactly `ui/static/styles.css`.")
+        # Provide a very clear error message if the file is not found.
+        st.error(f"CSS file not found. The application expected it to be at: {file_path}")
+        print(f"ERROR: CSS file not found at path: {file_path}")
+    except Exception as e:
+        st.error(f"An error occurred while loading CSS: {e}")
+        print(f"ERROR loading CSS: {e}")
+
+
+# --- THE FIX IS HERE ---
+# This function was missing in the previous version.
+def inject_font_awesome():
+    """
+    Injects the Font Awesome CSS library into the Streamlit app's HTML head.
+    This allows the use of a wide range of professional icons (like files, charts, etc.)
+    throughout the UI by using their class names in HTML/Markdown.
+    """
+    st.markdown(
+        # We use a reliable CDN for Font Awesome.
+        '<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">',
+        unsafe_allow_html=True,
+    )
+    print("✅ Font Awesome icons injected successfully.")
+
+# You can also add the inject_tailwind function here if you are using it.
+def inject_tailwind():
+    """Injects the Tailwind CSS CDN for professional UI styling."""
+    st.markdown(
+        """
+        <script src="https://cdn.tailwindcss.com"></script>
+        """,
+        unsafe_allow_html=True
+    )
+    print("✅ Tailwind CSS injected successfully.")

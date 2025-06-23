@@ -27,3 +27,17 @@ def are_keys_configured():
     if not OPENAI_API_KEY or not GOOGLE_API_KEY:
         return False
     return True
+
+# in config/settings.py
+
+# ... (your existing settings) ...
+
+# --- Vector Store & Retriever Settings ---
+# We no longer need the FAISS directory, as it's handled internally.
+# Instead, we define the paths for the complete retriever state.
+VECTOR_STORE_PATH = "storage/vector_store"
+DOC_STORE_PATH = "storage/doc_store"
+
+# --- Retriever Configuration ---
+CHILD_CHUNK_SIZE = 400
+CHILD_CHUNK_OVERLAP = 50

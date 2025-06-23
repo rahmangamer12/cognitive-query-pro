@@ -1,52 +1,60 @@
-/* ui/static/styles.css */
-
-/* General font and background */
-body {
-    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+/* ui/static/styles.css - v16.0 "PERFECTION" - The Final Masterpiece UI */
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap');
+:root {
+    --font-sans: 'Inter', sans-serif;
+    --primary-color: #38bdf8;
+    --secondary-color: #a78bfa;
+    --background-color: #0b1120;
+    --surface-color: #1e293b;
+    --text-light: #f1f5f9;
+    --text-muted: #94a3b8;
+    --border-color: #334155;
+    --radius-lg: 1rem;
+    --transition-all: all 0.3s ease-in-out;
 }
+body { font-family: var(--font-sans); background: var(--background-color); color: var(--text-light); }
+#MainMenu, footer, header { display: none !important; }
+.main .block-container { padding: 1.5rem 2rem 4rem 2rem !important; }
+.card { background: var(--surface-color); border-radius: var(--radius-lg); padding: 1.5rem; border: 1px solid var(--border-color); }
 
-/* Sidebar styling */
-[data-testid="stSidebar"] {
-    background-color: #0f1116;
-    border-right: 1px solid rgba(255, 255, 255, 0.1);
+/* --- RESPONSIVE NAVIGATION SYSTEM --- */
+@media (min-width: 993px) {
+    .mobile-header, .mobile-menu-overlay { display: none !important; }
 }
+@media (max-width: 992px) {
+    [data-testid="stSidebar"] { display: none !important; }
+    .main .block-container { padding-top: 6rem !important; }
+}
+.mobile-header {
+    position: fixed; top: 0; left: 0; right: 0; height: 60px;
+    background: rgba(17, 24, 39, 0.8); backdrop-filter: blur(10px);
+    border-bottom: 1px solid var(--border-color); display: none;
+    align-items: center; justify-content: space-between; padding: 0 1rem; z-index: 1000;
+}
+@media (max-width: 992px) { .mobile-header { display: flex; } }
+.mobile-header-title { font-size: 1.2rem; font-weight: 600; }
+.mobile-header-menu-button { background: none; border: none; color: white; font-size: 1.5rem; cursor: pointer; }
+.mobile-menu-overlay {
+    position: fixed; top: 0; left: 0; width: 100%; height: 100%;
+    background: rgba(11, 17, 32, 0.98); backdrop-filter: blur(12px);
+    z-index: 1001; display: flex; flex-direction: column;
+    justify-content: center; align-items: center;
+    opacity: 0; visibility: hidden;
+    transform: scale(0.95);
+    transition: opacity 0.3s ease, transform 0.3s ease, visibility 0s 0.3s;
+}
+.mobile-menu-overlay.open { opacity: 1; transform: scale(1); visibility: visible; transition-delay: 0s; }
+.mobile-menu-close-button { position: absolute; top: 20px; right: 20px; background: none; border: none; color: var(--text-muted); font-size: 2.5rem; cursor: pointer; transition: var(--transition-all); }
+.mobile-menu-close-button:hover { color: white; transform: rotate(90deg); }
+.mobile-menu-nav { display: flex; flex-direction: column; align-items: center; gap: 2rem; }
+.mobile-menu-nav a { color: var(--text-muted); text-decoration: none; font-size: 2rem; font-weight: 700; transition: var(--transition-all); display: flex; align-items: center; gap: 1rem; }
+.mobile-menu-nav a:hover { color: white; transform: scale(1.1); }
+.mobile-menu-nav a.active { color: var(--primary-color); }
+/* in ui/static/styles.css */
 
-[data-testid="stSidebar"] .stButton button {
-    background-color: #4A4A5A;
-}
-
-[data-testid="stSidebar"] .stButton button:hover {
-    background-color: #6c63ff;
-    color: white;
-}
-
-[data-testid="stSidebar"] [data-testid="stMarkdownContainer"] h3 {
-    color: #6c63ff;
-}
-
-/* Chat message styling */
-.stChatMessage {
-    background-color: #262730;
-    border: 1px solid rgba(255, 255, 255, 0.1);
-    border-radius: 12px;
-    padding: 1.2rem;
-}
-
-/* Specific styling for user messages */
-div[data-testid="chat-message-container"] > div[data-testid="stChatMessage"] {
-    background-color: #1e1f24; /* Slightly different for user */
-}
-
-/* Main action button */
-.stButton > button[kind="primary"] {
-    background-color: #6c63ff;
-    border: none;
-}
-.stButton > button[kind="primary"]:hover {
-    background-color: #5a54d1;
-}
-
-/* Spinner color */
-.stSpinner > div {
-    border-top-color: #6c63ff !important;
+/* This hides the internal control buttons on desktop */
+@media (min-width: 993px) {
+    .mobile-ui-components {
+        display: none !important;
+    }
 }

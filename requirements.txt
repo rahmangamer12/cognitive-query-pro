@@ -1,19 +1,5 @@
-# requirements.txt - LATEST STABLE VERSIONS
+# requirements.txt - Final, Simplified, Direct-Access Stack
 
-streamlit
-langchain
-langchain-core
-langchain-community
-langchain-openai
-langchain-google-genai
-langchain-huggingface
-chromadb
-pypdf
-python-dotenv
-tiktoken
-python-docx
-onnxruntime
-protobuf
 streamlit
 langchain
 langchain-openai
@@ -24,4 +10,10 @@ python-dotenv
 tiktoken
 python-docx
 sentence-transformers
+langchain-community
 langchain-text-splitters
+pandas
+matplotlib
+plotly
+numpy
+scikit-learn
