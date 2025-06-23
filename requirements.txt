@@ -21,3 +21,21 @@ openpyxl
 python-pptx
 beautifulsoup4
 psutil
+streamlit
+pandas
+plotly
+langchain
+langchain-core
+langchain-community
+langchain-google-genai
+faiss-cpu
+pypdf
+python-docx
+openpyxl
+python-pptx
+beautifulsoup4
+psutil
+
+# In agents ke liye zaroori libraries, agar aap OpenAI istemal kar rahe hain:
+langchain-openai
+tiktoken
