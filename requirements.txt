@@ -17,3 +17,5 @@ matplotlib
 plotly
 numpy
 scikit-learn
+openpyxl
+pptx
